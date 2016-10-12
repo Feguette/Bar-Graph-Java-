@@ -1,4 +1,3 @@
-
 /**
  * Write a description of class BarGraphDriver here.
  * 
@@ -11,13 +10,15 @@ import java.awt.geom.Rectangle2D;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+
 public class BarGraphDriver extends JComponent
 {
     private double[] values;
     private int barGraphHeight;
     private int barGraphLength;
-    private int barLength;
-    private double baseLine;
+    private double barLength;
+    private double baseZero;
     private double barRatio;
     private double valuesUpper;
     private double valuesLower;
@@ -25,13 +26,13 @@ public class BarGraphDriver extends JComponent
     
     public BarGraphDriver()
     {
-        values[] = {4,-610.5, 2102};
+        values = new double[] {444.1,-1000, 2102.2, 30, 100};
         barGraphLength = 1000;
-        
-        barLength = barGraphLength/values.length;
+        barGraphHeight = 1000;
+        barLength = (double)barGraphLength/values.length;
     }
     
-    public void setMaxMin()
+    public void setRatio()
     {
         double varsCur = 0;
         for(int i = 0; i < values.length; i ++)
@@ -47,26 +48,39 @@ public class BarGraphDriver extends JComponent
         {
             valuesLower = 0;
         }
+        barRatio = (double)(valuesUpper - valuesLower) / barGraphHeight;
     }
     
-    public void draw(Graphics g)
+    public void setBaseZero()
+    {
+        baseZero = 400;
+    }
+        
+    public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D)g;
         
-        Color[] colors = {Color.black, Color.blue, Color.cyan, Color.darkGray,
-                  Color.green, Color.lightGray, Color.magenta, Color.magenta,
-                  Color.orange, Color.pink, Color.red, Color.white, Color.yellow};
-        
+        Color[] palette = {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.magenta, Color.pink, Color.black};
+                  
+        setRatio();
+        setBaseZero();
+        g2.drawLine(0,(int)baseZero, barGraphLength,(int)baseZero);
         for (int i = 0; i < values.length; i++)
         {
-            g.setColor(colors[i]);
+            g2.setColor(palette[i%8]);
             if (values[i]>=0)
             {
-                g2.drawRect((int)barLength+(barLength*i), (int)barRatio-500, barLength, (int)(baseLine-(barRatio*values[i])));            
+                g2.drawRect((int)barLength*i, (int)(baseZero-(barRatio*values[i])), (int)barLength, (int)(barRatio*values[i]));        
+                g2.fill(new Rectangle((int)barLength*i, (int)(baseZero-(barRatio*values[i])), (int)barLength, (int)(barRatio*values[i])));
+                g2.setColor(Color.black);
+                g2.drawString(""+values[i],(int)barLength*i,(int)(baseZero-(barRatio*values[i])));
             }
             else
             {
-                 g2.drawRect((int)(barLength+(barLength*i)), (int)baseLine, barLength, barGraphHeight*barRatio);
+                 g2.drawRect((int)barLength*i, (int)baseZero, (int)barLength, (int)Math.abs(barRatio*values[i]));
+                 g2.fill(new Rectangle((int)barLength*i, (int)baseZero, (int)barLength, (int)Math.abs(barRatio*values[i])));
+                 g2.setColor(Color.black);
+                 g2.drawString(""+values[i],(int)barLength*i,(int)baseZero+(int)(Math.abs(barRatio*values[i])+10));
             }
         }
     }
