@@ -87,4 +87,4 @@ public class BarGraphDriver extends JComponent
         }
     }
 }
-}
+
