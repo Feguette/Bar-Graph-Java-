@@ -56,11 +56,7 @@ public class BarGraphDriver extends JComponent
        public void draw(Graphics g)
     {
         Graphics2D g2 = (Graphics2D)g;
-        
-        Color[] colors = {Color.black, Color.blue, Color.cyan, Color.darkGray,
-                  Color.green, Color.lightGray, Color.magenta, Color.magenta,
-                  Color.orange, Color.pink, Color.red, Color.white, Color.yellow};
-        
+ 
         for (int i = 0; i < values.length; i++)
         {
             g.setColor(colors[i]);
