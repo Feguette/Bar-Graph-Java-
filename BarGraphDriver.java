@@ -26,7 +26,7 @@ public class BarGraphDriver extends JComponent
     
     public BarGraphDriver()
     {
-        values = new double[] {444.1,-1000, 2102.2, 30, 100};
+        values = new double[] {-444.1,1000, -2102.2, 30, 100};
         barGraphLength = 1000;
         barGraphHeight = 1000;
         barLength = (double)barGraphLength/values.length;
@@ -34,11 +34,13 @@ public class BarGraphDriver extends JComponent
     
     public void setRatio()
     {
-        double varsCur = 0;
+        valuesUpper = 0;
+        valuesLower = 0;
         for(int i = 0; i < values.length; i ++)
         {
-            valuesUpper = Math.max(varsCur, values[i]);
-            valuesLower = Math.min(varsCur, values[i]);
+            
+            valuesUpper = Math.max(valuesUpper, values[i]);
+            valuesLower = Math.min(valuesLower, values[i]);
         }
         if (valuesLower > 0)
         {
@@ -48,12 +50,12 @@ public class BarGraphDriver extends JComponent
         {
             valuesLower = 0;
         }
-        barRatio = (double)(valuesUpper - valuesLower) / barGraphHeight;
+        barRatio = (double) barGraphHeight/(valuesUpper - valuesLower);
     }
     
     public void setBaseZero()
     {
-        baseZero = 400;
+        baseZero = valuesUpper*barRatio;
     }
         
     public void paintComponent(Graphics g)
@@ -84,4 +86,5 @@ public class BarGraphDriver extends JComponent
             }
         }
     }
+}
 }
