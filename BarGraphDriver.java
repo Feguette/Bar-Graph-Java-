@@ -31,7 +31,7 @@ public class BarGraphDriver extends JComponent
         barLength = barGraphLength/values.length;
     }
     
-    public void setterMaxMin()
+    public void setMaxMin()
     {
         double varsCur = 0;
         for(int i = 0; i < values.length; i ++)
@@ -47,7 +47,13 @@ public class BarGraphDriver extends JComponent
         {
             valuesLower = 0;
         }
-
+    }
+    
+    public void setRatio()
+    {
+        setMaxMin();
+        barRatio = (double)(valuesUpper - valuesLower) / barGraphHeight;
+    }
        public void draw(Graphics g)
     {
         Graphics2D g2 = (Graphics2D)g;
