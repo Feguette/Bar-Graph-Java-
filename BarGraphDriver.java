@@ -49,26 +49,25 @@ public class BarGraphDriver extends JComponent
         }
     }
     
-    public void setRatio()
-    {
-        setMaxMin();
-        barRatio = (double)(valuesUpper - valuesLower) / barGraphHeight;
-    }
-       public void draw(Graphics g)
+    public void draw(Graphics g)
     {
         Graphics2D g2 = (Graphics2D)g;
- 
+        
+        Color[] colors = {Color.black, Color.blue, Color.cyan, Color.darkGray,
+                  Color.green, Color.lightGray, Color.magenta, Color.magenta,
+                  Color.orange, Color.pink, Color.red, Color.white, Color.yellow};
+        
         for (int i = 0; i < values.length; i++)
         {
             g.setColor(colors[i]);
             if (values[i]>=0)
             {
-                g2.drawRect(barLength, (int)(baseLine-(barRatio*values[i])), (int)barLength+(barLength*i), (int)barRatio-500);          
+                g2.drawRect((int)barLength+(barLength*i), (int)barRatio-500, barLength, (int)(baseLine-(barRatio*values[i])));            
             }
             else
             {
-                 g2.drawRect(barLength, barGraphHeight, (int)(barLength+(barLength*i)), (int)baseLine);
+                 g2.drawRect((int)(barLength+(barLength*i)), (int)baseLine, barLength, barGraphHeight);
             }
         }
     }
-    }
+}
