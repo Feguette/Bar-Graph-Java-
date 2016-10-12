@@ -22,13 +22,18 @@ public class BarGraphDriver extends JComponent
     private double barRatio;
     private double valuesUpper;
     private double valuesLower;
+    private int shiftX;
+    private int shiftY;
+    
     
     
     public BarGraphDriver()
     {
-        values = new double[] {-444.1,1000, -2102.2, 30, 100};
-        barGraphLength = 1000;
-        barGraphHeight = 1000;
+        values = new double[] {-444.1, -100000, 101022, 30, 100, 200, 100, 300, 500, 2, 1};
+        barGraphHeight = 650;
+        barGraphLength = 950;
+        shiftX = 25;
+        shiftY = 25;
         barLength = (double)barGraphLength/values.length;
     }
     
@@ -55,14 +60,14 @@ public class BarGraphDriver extends JComponent
     
     public void setBaseZero()
     {
-        baseZero = valuesUpper*barRatio;
+        baseZero = valuesUpper*barRatio + shiftY;
     }
         
     public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D)g;
         
-        Color[] palette = {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.magenta, Color.pink, Color.black};
+        Color[] palette = {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.magenta, Color.pink, Color.lightGray};
                   
         setRatio();
         setBaseZero();
@@ -72,19 +77,18 @@ public class BarGraphDriver extends JComponent
             g2.setColor(palette[i%8]);
             if (values[i]>=0)
             {
-                g2.drawRect((int)barLength*i, (int)(baseZero-(barRatio*values[i])), (int)barLength, (int)(barRatio*values[i]));        
-                g2.fill(new Rectangle((int)barLength*i, (int)(baseZero-(barRatio*values[i])), (int)barLength, (int)(barRatio*values[i])));
+                g2.drawRect((int)barLength*i + shiftX, (int)(baseZero-(barRatio*values[i])), (int)barLength, (int)(barRatio*values[i]));        
+                g2.fill(new Rectangle((int)barLength*i  + shiftX, (int)(baseZero-(barRatio*values[i])), (int)barLength, (int)(barRatio*values[i])));
                 g2.setColor(Color.black);
-                g2.drawString(""+values[i],(int)barLength*i,(int)(baseZero-(barRatio*values[i])));
+                g2.drawString(""+values[i],(int)(barLength*i) + shiftX,(int)(baseZero-(barRatio*values[i])));
             }
             else
             {
-                 g2.drawRect((int)barLength*i, (int)baseZero, (int)barLength, (int)Math.abs(barRatio*values[i]));
-                 g2.fill(new Rectangle((int)barLength*i, (int)baseZero, (int)barLength, (int)Math.abs(barRatio*values[i])));
+                 g2.drawRect((int)barLength*i + shiftX, (int)baseZero, (int)barLength, (int)Math.abs(barRatio*values[i]));
+                 g2.fill(new Rectangle((int)barLength*i + shiftX, (int)baseZero, (int)barLength, (int)Math.abs(barRatio*values[i])));
                  g2.setColor(Color.black);
-                 g2.drawString(""+values[i],(int)barLength*i,(int)baseZero+(int)(Math.abs(barRatio*values[i])+10));
+                 g2.drawString(""+values[i],(int)barLength*i + shiftX,(int)baseZero+(int)(Math.abs(barRatio*values[i])));
             }
         }
     }
 }
-
