@@ -66,7 +66,7 @@ public class BarGraphDriver extends JComponent
             }
             else
             {
-                 g2.drawRect((int)(barLength+(barLength*i)), (int)baseLine, barLength, barGraphHeight);
+                 g2.drawRect((int)(barLength+(barLength*i)), (int)baseLine, barLength, barGraphHeight*barRatio);
             }
         }
     }
