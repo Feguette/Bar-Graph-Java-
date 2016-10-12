@@ -53,17 +53,24 @@ public class BarGraphDriver extends JComponent
                   Color.green, Color.lightGray, Color.magenta, Color.magenta,
                   Color.orange, Color.pink, Color.red, Color.white, Color.yellow};
         
+       public void draw(Graphics g)
+    {
+        Graphics2D g2 = (Graphics2D)g;
+        
+        Color[] colors = {Color.black, Color.blue, Color.cyan, Color.darkGray,
+                  Color.green, Color.lightGray, Color.magenta, Color.magenta,
+                  Color.orange, Color.pink, Color.red, Color.white, Color.yellow};
+        
         for (int i = 0; i < values.length; i++)
         {
             g.setColor(colors[i]);
-            if (value[i]>=0)
+            if (values[i]>=0)
             {
-                graph2D.drawRect(barLength, baseLine-(barRatio*values[i]), barLength+(barlength*i), barRatio-500);
-            
+                g2.drawRect(barLength, (int)(baseLine-(barRatio*values[i])), (int)barLength+(barLength*i), (int)barRatio-500);          
             }
             else
             {
-                 graph2D.drawRect(barLength, , barLength+(barlength*i), baseLine);
+                 g2.drawRect(barLength, barGraphHeight, (int)(barLength+(barLength*i)), (int)baseLine);
             }
         }
     }
